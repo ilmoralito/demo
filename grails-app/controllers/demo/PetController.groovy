@@ -39,14 +39,15 @@ class PetController {
 	}	
 	
 
-	def delete(Integer petId, Integer ownerId)
-	{
+	def delete(Integer petId, Integer ownerId) {
+		def owner = Owner.get(ownerId)
 		def pet = Pet.get(petId)
-		pet.delete(flush: true)
 		
-		if (!pet) {
-			response.sendError 404
-		}
+		if (!owner || !pet) { response.sendError(404) }
+		
+		owner.removeFromPets pet
+		
+		pet.delete(flush:true)
 		
 		redirect controller:"owner", action:"show", id:ownerId
 		
