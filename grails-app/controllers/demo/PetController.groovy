@@ -46,10 +46,8 @@ class PetController {
 		if (!owner || !pet) { response.sendError(404) }
 		
 		owner.removeFromPets pet
-		
 		pet.delete(flush:true)
 		
 		redirect controller:"owner", action:"show", id:ownerId
-		
 	}
 }
